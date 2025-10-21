@@ -1,0 +1,1 @@
+cmake -B build -S . -A Win32 -DCMAKE_PREFIX_PATH="C:\Users\Administrator\Desktop\BallanceModLoaderPlus\install\lib\cmake\BML;C:\Users\Administrator\Desktop\Virtools-SDK-2.1"
