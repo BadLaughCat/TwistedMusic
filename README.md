@@ -1,12 +1,25 @@
-# WIP
-冷曦音响 Ballance mod<br>
-从9月末我发视频以来，陆续有很多人催我发布这个mod<br>
-没写过C++，越写越讨厌。。甘愿被cargo check狠狠地大调查<br>
-
-有时候交换相邻两行，即便不影响程序逻辑，也会导致游戏闪退<br>
-我想在imgui界面中塞个按钮，按下调用FileDialog多选文件<br>
-结果遇到了诡异的bug，miniaudio怎么也不认我选的那些文件（MA_DOES_NOT_EXIST），不知道别人能不能复现<br>
-老老实实用bml command写，设想输入目录就遍历文件加载声音<br>
-然后崩溃闪退了<br>
-
-有很多次我想放弃，又想到想吃史的那些人。。就咕咕到了现在
+一个音乐播放器 + Ballance mod，能够根据玩家球的速度同时改变音乐的速度和音高<br>
+本人不喜欢 C++，打算以 C++ 程序写入 Rust 程序内存的方式写这个 mod<br>
+这么做会导致用法变得繁琐
+## 构建
+**C++**<br>
+环境配置参照 [BallanceModLoaderPlus](https://github.com/doyaGu/BallanceModLoaderPlus)<br>其中 Virtools SDK 选择 [Virtools-SDK-2.1](https://github.com/doyaGu/Virtools-SDK-2.1)<br>
+```
+cd cpp
+cmake -B build -S . -A Win32 -DCMAKE_PREFIX_PATH="E:\Desktop\BallanceModLoaderPlus\install\lib\cmake;E:\Desktop\Virtools-SDK-2.1"
+cmake --build build --config Release --parallel 4
+```
+**Rust**<br>
+工具链：x86_64-pc-windows-msvc<br>
+Target：i686-pc-windows-msvc
+```
+cd rust
+cargo build --target i686-pc-windows-msvc --release -j 4
+```
+## 用法
+打开本软件随便播放一首歌<br>
+运行 [Cheat Engine](https://www.cheatengine.org/)，搜索本软件内存中值为 1919810 的 double<br>
+蹦出来 3 个左右的匹配项，一边改值一边找到能影响音调的唯一项<br>
+复制该项的地址，打开 Ballance 输入指令 twistedmusic<br>
+粘贴地址到地址输入框，旁边要输入的 PID 可在本软件右下角找到<br>
+最后点击“连接”按钮

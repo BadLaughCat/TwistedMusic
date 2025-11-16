@@ -3,21 +3,15 @@
 		{
 			"name": "Win32",
 			"includePath": [
-				"C:/Users/Administrator/Desktop/nativefiledialog-extended/src/include",
-				"C:/Users/Administrator/Desktop/Virtools-SDK-2.1/Include",
-				"C:/Users/Administrator/Desktop/BallanceModLoaderPlus/install/include",
-				"${workspaceFolder}/**"
+				"E:/Desktop/Virtools-SDK-2.1/Include",
+				"E:/Desktop/BallanceModLoaderPlus/install/include",
+				"${default}"
 			],
 			"defines": [
 				"_DEBUG",
 				"UNICODE",
 				"_UNICODE"
-			],
-			"windowsSdkVersion": "10.0.19041.0",
-			"compilerPath": "cl.exe",
-			"cStandard": "c17",
-			"cppStandard": "c++17",
-			"intelliSenseMode": "windows-msvc-x86"
+			]
 		}
 	],
 	"version": 4
