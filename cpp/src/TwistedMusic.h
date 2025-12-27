@@ -3,13 +3,16 @@
 #include <imgui.h>
 
 #include <deque>
+#include <math.h>
 #include <optional>
 #include <stdexcept>
 
 #include <Windows.h>
+#include <TlHelp32.h>
 #include <processthreadsapi.h>
 #include <handleapi.h>
 #include <memoryapi.h>
+#include <comdef.h>
 
 class TwistedMusic : public IMod {
 public:
@@ -27,13 +30,19 @@ public:
 
 	bool mShowImgui = true;
 	HANDLE mHandle = nullptr;
-	DWORD mPid;
+	DWORD mPid = 0;
 	char mAddrTmp[9];
-	uint32_t mAddr;
+	uint32_t mAddr = 0;
+
+	float mBasePitch = 0.75;
+	int mDivisor = 30;
+	enum CalcMethod { Linear, Square, Log };
+	CalcMethod mMethod = CalcMethod::Linear;
 
 	void OnLoad() override;
 	void OnUnload() override;
 	void OnProcess() override;
+	bool SearchTheProcess();
 	void InjectTheRustProgram();
 	void CloseTheHandle(bool sendMessage = false);
 };

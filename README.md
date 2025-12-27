@@ -21,5 +21,4 @@ cargo build --target i686-pc-windows-msvc --release -j 4
 运行 [Cheat Engine](https://www.cheatengine.org/)，搜索本软件内存中值为 1919810 的 double<br>
 蹦出来 3 个左右的匹配项，一边改值一边找到能影响音调的唯一项<br>
 复制该项的地址，打开 Ballance 输入指令 twistedmusic<br>
-粘贴地址到地址输入框，旁边要输入的 PID 可在本软件右下角找到<br>
-最后点击“连接”按钮
+粘贴地址到地址输入框，点击“连接”按钮<br>

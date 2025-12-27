@@ -1,7 +1,7 @@
 #![windows_subsystem = "windows"]
 use std::{error::Error, sync::Arc};
 
-use eframe::egui::{self, RichText, Sense};
+use eframe::egui::{self, Button, RichText, Sense};
 use egui_extras::{Column, TableBuilder};
 use kira::sound::PlaybackState;
 use windows::Win32::System::Threading::GetCurrentProcessId;
@@ -48,16 +48,6 @@ impl MyEguiApp {
 		cc.egui_ctx.set_fonts(fonts);
 
 		let pid = format!("PID {}", unsafe { GetCurrentProcessId() });
-		// unsafe {
-		// let handle = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pid).unwrap();
-		// let mut entry = MODULEENTRY32 {
-		// dwSize: size_of::<MODULEENTRY32>() as u32,
-		// ..Default::default()
-		// };
-		// Module32First(handle, &mut entry).unwrap();
-		// let addr = format!("{:p}", entry.modBaseAddr);
-		// CloseHandle(handle).unwrap();
-		// }
 
 		Self {
 			selected_row: 0,
@@ -151,6 +141,19 @@ impl eframe::App for MyEguiApp {
 							let index = row.index();
 							row.set_selected(self.selected_row == index);
 							row.col(|ui| {
+								if self.selected_row == index {
+									if ui.button("删除").clicked() {
+										let _ = self.audio_bg.sender.send(BgEvent::Remove(index));
+									}
+									if ui.add_enabled(index != 0, Button::new("上移")).clicked() {
+										let _ = self.audio_bg.sender.send(BgEvent::MoveUp(index));
+										self.selected_row -= 1;
+									}
+									if ui.add_enabled(index != song_list.len() - 1, Button::new("下移")).clicked() {
+										let _ = self.audio_bg.sender.send(BgEvent::MoveDown(index));
+										self.selected_row += 1;
+									}
+								}
 								let mut the_text = RichText::new(&song_list[index].0);
 								if self
 									.audio_bg

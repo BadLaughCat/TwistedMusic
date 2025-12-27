@@ -27,6 +27,9 @@ pub enum BgEvent {
 	SetVolume(f32),
 	Pause,
 	Resume,
+	Remove(usize),
+	MoveUp(usize),
+	MoveDown(usize),
 }
 
 impl Background {
@@ -108,6 +111,31 @@ impl Background {
 						if let Some(song) = &mut *current_song {
 							song.handle.resume(Tween::default());
 						}
+					}
+					BgEvent::Remove(index) => {
+						if let Some(song) = &mut *current_song
+							&& song.index_in_list == index
+						{
+							song.handle.stop(Tween::default());
+							*current_song = None;
+						}
+						song_list.remove(index);
+					}
+					BgEvent::MoveUp(index) => {
+						if let Some(song) = &mut *current_song
+							&& song.index_in_list == index
+						{
+							song.index_in_list -= 1;
+						}
+						song_list.swap(index - 1, index);
+					}
+					BgEvent::MoveDown(index) => {
+						if let Some(song) = &mut *current_song
+							&& song.index_in_list == index
+						{
+							song.index_in_list += 1;
+						}
+						song_list.swap(index, index + 1);
 					}
 				}
 			}
